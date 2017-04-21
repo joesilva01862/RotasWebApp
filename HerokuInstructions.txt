@@ -1,0 +1,6 @@
+
+To deploy to Heroku's blueriver02703@gmail.com account:
+
+heroku login (once)
+heroku git:remote -a javaapp2016 (once)
+git push heroku master (to push, rebuild and redeploy at Heroku)
