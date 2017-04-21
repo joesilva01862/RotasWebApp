@@ -33,7 +33,7 @@ import com.google.gson.JsonParser;
 @RequestMapping("/")
 public class ApplicationController {
  
-	@RequestMapping(value="/Test", method = RequestMethod.GET)
+	@RequestMapping(value="/test", method = RequestMethod.GET)
 	public String welcome(ModelMap model) { 
 		model.addAttribute("msgArgument", "Aplicacao Web Rotas: Sucesso!");
 		return "index";
