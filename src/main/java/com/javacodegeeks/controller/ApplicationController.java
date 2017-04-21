@@ -32,10 +32,14 @@ import com.google.gson.JsonParser;
 @Controller
 @RequestMapping("/")
 public class ApplicationController {
- 
+	@RequestMapping(value={"/"}, method=RequestMethod.GET)
+	public String rootPage() {
+		return "redirect:test"; // "forward" is different than "redirect"
+	}
+	
 	@RequestMapping(value="/test", method = RequestMethod.GET)
 	public String welcome(ModelMap model) { 
-		model.addAttribute("msgArgument", "Aplicacao Web Rotas: Sucesso!");
+		model.addAttribute("msgArgument", "Aplicacao Rotas de Taxi instalada com sucesso!");
 		return "index";
 	}
  
