@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +35,9 @@ import com.google.gson.JsonParser;
 @Controller
 @RequestMapping("/")
 public class ApplicationController {
+	private int mCallCount;
+	private Date mDateSince;
+	
 	@RequestMapping(value={"/"}, method=RequestMethod.GET)
 	public String rootPage() {
 		return "redirect:test"; // "forward" is different than "redirect"
@@ -40,6 +46,11 @@ public class ApplicationController {
 	@RequestMapping(value="/test", method = RequestMethod.GET)
 	public String welcome(ModelMap model) { 
 		model.addAttribute("msgArgument", "Aplicacao Rotas de Taxi instalada com sucesso!");
+		model.addAttribute("callCount", mCallCount);
+		if (mDateSince == null) {
+			mDateSince = Calendar.getInstance().getTime();
+		}
+		model.addAttribute("dateSince", getFormattedDate(mDateSince));
 		return "index";
 	}
  
@@ -55,6 +66,7 @@ public class ApplicationController {
 	 */
 	@RequestMapping(value="/directions", method = RequestMethod.GET)
 	public @ResponseBody String getDirections(HttpServletRequest request, HttpServletResponse response, @RequestParam("formato") String format, @RequestParam("origem") String origin, @RequestParam("destino") String dest, ModelMap model) {
+		mCallCount++;
 		RotasSet rotasSet = getRoutes(origin, dest);;
 		String result = null;
 		StringWriter writer = new StringWriter();
@@ -176,6 +188,11 @@ public class ApplicationController {
 	    return rotasSet;
 	}
 	
+	private String getFormattedDate(Date date) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // HH means 24-hour format
+		return dateFormat.format(date);
+	}
+
 	public String replaceBlanks(String source) {
 		String res = source.replace(" ", "%20");
 		return res;
