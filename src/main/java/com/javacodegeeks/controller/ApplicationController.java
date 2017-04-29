@@ -53,7 +53,6 @@ public class ApplicationController {
 		model.addAttribute("dateSince", getFormattedDate(mDateSince));
 		return "index";
 	}
- 
 	
 	@RequestMapping(value="/direc/{origin}", method = RequestMethod.GET)
 	public String welcomeName(@PathVariable String origin, ModelMap model) {
