@@ -54,6 +54,7 @@ public class ApplicationController {
 		return "index";
 	}
  
+	
 	@RequestMapping(value="/direc/{origin}", method = RequestMethod.GET)
 	public String welcomeName(@PathVariable String origin, ModelMap model) {
 		model.addAttribute("msgArgument", origin);
