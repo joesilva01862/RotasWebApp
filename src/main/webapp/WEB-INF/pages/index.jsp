@@ -8,7 +8,7 @@
 <p>
 Exemplo de como chamar esta aplicacao:
 <br>
-<p>https://javaapp2016.herokuapp.com/directions?formato=xml&amp;origem=30 Griswold St, Cambridge, MA&amp;destino=700 District ave, Burlington, MA</p>
+<p>https://rotastaxi.herokuapp.com/directions?formato=xml&amp;origem=30 Griswold St, Cambridge, MA&amp;destino=700 District ave, Burlington, MA</p>
 <p>
 Este exemplo deve produzir 3 rotas.
 </body>

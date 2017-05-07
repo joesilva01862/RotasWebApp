@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -54,6 +56,22 @@ public class ApplicationController {
 		return "index";
 	}
 	
+	@RequestMapping(value="/stats/{year}/{month}", method = RequestMethod.GET)
+	public String stats(@PathVariable String year, @PathVariable String month, ModelMap model) { 
+		int count = 0;
+		
+		try {
+			count = DatabaseAccess.read(Integer.parseInt(year), Integer.parseInt(month));
+		} catch (NumberFormatException | SQLException | URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			count = -1;
+		}
+		model.addAttribute("callCount", count);
+		return "stats";
+	}
+	
+	
 	@RequestMapping(value="/direc/{origin}", method = RequestMethod.GET)
 	public String welcomeName(@PathVariable String origin, ModelMap model) {
 		model.addAttribute("msgArgument", origin);
@@ -98,6 +116,27 @@ public class ApplicationController {
 				
 		// only solution to the accent problem (for json and for xml)
 		response.setCharacterEncoding("ISO-8859-1"); 
+		
+		// get current date values
+		Calendar localTime = Calendar.getInstance();
+		
+		// read database
+		int count = 0;
+		int year = localTime.get(Calendar.YEAR);
+		int month = localTime.get(Calendar.MONTH) + 1; // it's zero-based
+		try {
+			count = DatabaseAccess.read(year, month);
+			if (count == 0) {
+				DatabaseAccess.insert(year, month);
+			}
+			else {
+				DatabaseAccess.update(year, month, count+1);
+			}
+		} catch (SQLException | URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return result; 
 	}
  
