@@ -45,7 +45,8 @@ public class DatabaseAccess {
 
 		String selectTableSQL = "select count from USAGE "
 				+ "where year = ? and month = ?";
-		PreparedStatement preparedStatement = getConnection().prepareStatement(selectTableSQL);
+		Connection conn = getConnection();
+		PreparedStatement preparedStatement = conn.prepareStatement(selectTableSQL);
 		preparedStatement.setInt(1,  year);
 		preparedStatement.setInt(2,  month);
 		ResultSet rs = preparedStatement.executeQuery();
@@ -57,6 +58,8 @@ public class DatabaseAccess {
 			break;
 		}
 		
+		preparedStatement.close();
+		conn.close();
 		return rowCount;
 	}
 	
@@ -65,13 +68,16 @@ public class DatabaseAccess {
 		String insertTableSQL = "INSERT INTO USAGE"
 				+ "(year, month, day, count) VALUES"
 				+ "(?,?,?,?)";
-		PreparedStatement preparedStatement = getConnection().prepareStatement(insertTableSQL);
+		Connection conn = getConnection();
+		PreparedStatement preparedStatement = conn.prepareStatement(insertTableSQL);
 		preparedStatement.setInt(1, year);
 		preparedStatement.setInt(2, month);
 		preparedStatement.setInt(3, 0);
 		preparedStatement.setInt(4, 1);
 		// execute insert SQL stetement
 		preparedStatement.executeUpdate();
+		preparedStatement.close();
+		conn.close();
 	}
 	
 	public static void update(int year, int month, int count) throws SQLException, URISyntaxException {
@@ -79,11 +85,14 @@ public class DatabaseAccess {
 		String updateTableSQL = "UPDATE USAGE "
 				+ "set count = ? "
 				+ "where year = ? and month = ?";
-		PreparedStatement preparedStatement = getConnection().prepareStatement(updateTableSQL);
+		Connection conn = getConnection();
+		PreparedStatement preparedStatement = conn.prepareStatement(updateTableSQL);
 		preparedStatement.setInt(1, count);
 		preparedStatement.setInt(2, year);
 		preparedStatement.setInt(3, month);
 		preparedStatement.executeUpdate();
+		preparedStatement.close();
+		conn.close();
 	}
 	
 	
