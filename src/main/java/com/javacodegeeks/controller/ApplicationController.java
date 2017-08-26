@@ -72,6 +72,21 @@ public class ApplicationController {
 	}
 	
 	
+	@RequestMapping(value="/stats/ws/{year}/{month}", method = RequestMethod.GET)
+	public @ResponseBody String statsWs(@PathVariable String year, @PathVariable String month, ModelMap model) { 
+		int count = 0;
+		
+		try {
+			count = DatabaseAccess.read(Integer.parseInt(year), Integer.parseInt(month));
+		} catch (NumberFormatException | SQLException | URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			count = -1;
+		}
+		return String.valueOf(count);
+	}
+	
+	
 	@RequestMapping(value="/direc/{origin}", method = RequestMethod.GET)
 	public String welcomeName(@PathVariable String origin, ModelMap model) {
 		model.addAttribute("msgArgument", origin);

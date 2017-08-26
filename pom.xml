@@ -66,6 +66,18 @@
 			<version>3.2.3.RELEASE</version>
 		</dependency>
 
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.1</version>
+            <scope>test</scope>
+        </dependency>
+    
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>RotasWebApp</finalName>
