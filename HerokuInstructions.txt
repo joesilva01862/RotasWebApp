@@ -1,16 +1,16 @@
 
-To deploy to Heroku's blueriver02703@gmail.com account:
+To deploy to Heroku's josivaldo@comcast.net account:
 
 1. heroku login (same password as Heroku's website) (once)
-2. heroku git:remote -a javaapp2016 (once)
+2. heroku git:remote -a javaapp2016 (no longer needed?)
 3. git push heroku master (to push, rebuild and redeploy at Heroku)
 
 
 ================================================================
 
-To add a PostGreSQL database to Heroku:
+To add a PostGreSQL database to a Heroku app:
 
-1. log in and add Heroku through Heroku's website.
+1. log in and add PostGreSQL through Heroku's website.
 2. get the full url from their site (to be used in the Java app)
 3. Use DATABASE_URL when deploying to Heroku; use driver name
    and JDBC_DATABASE_URL (jdbc:postgresql://localhost/rotastaxi_db)
