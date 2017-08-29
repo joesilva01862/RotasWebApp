@@ -18,7 +18,6 @@ public class StatDaoImpl implements StatDao {
     private final static Logger logger = Logger.getLogger(StatDaoImpl.class);
     private final static String PROPERTIES_FILE = "application.properties";
 	
-/*	
     // to be used for Heroku deployment
 	private Connection getConnection() throws URISyntaxException, SQLException {
 	    URI dbUri = new URI(System.getenv("DATABASE_URL"));
@@ -29,8 +28,8 @@ public class StatDaoImpl implements StatDao {
 
 	    return DriverManager.getConnection(dbUrl, username, password);
 	}
-*/	
 	
+/*    
     // to be used for local deployment
 	private static Connection getConnection() throws SQLException {
 		// for local test
@@ -54,7 +53,7 @@ public class StatDaoImpl implements StatDao {
 	    String password = props.getProperty("jdbc.password");
 	    return DriverManager.getConnection(dbUrl, user, password);
 	}
-	
+*/	
 	public int read(int year, int month) throws SQLException, URISyntaxException {
 		String selectTableSQL = "select count from USAGE "
 				+ "where year = ? and month = ?";
