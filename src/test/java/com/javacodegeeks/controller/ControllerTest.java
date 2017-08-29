@@ -28,9 +28,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.javacodegeeks.service.StatService;
 
 /**
- * TODO: properly test the controller.
- * 
- * Stubbed junit test for the controller.
  * 
  * @author joe
  *
@@ -65,7 +62,7 @@ public class ControllerTest {
 
         MvcResult result = mockMvc.perform(get("/stats/ws/{year}/{month}", year, month))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE+";charset=ISO-8859-1"))
                 .andExpect(jsonPath("$.count", is(expectedReturn)))
                 .andReturn();
 

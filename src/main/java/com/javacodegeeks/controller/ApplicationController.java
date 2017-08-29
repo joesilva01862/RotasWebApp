@@ -18,6 +18,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
+import com.javacodegeeks.dao.StatDaoImpl;
 import com.javacodegeeks.json.Stat;
 import com.javacodegeeks.service.StatService;
  
@@ -43,13 +45,14 @@ import com.javacodegeeks.service.StatService;
 public class ApplicationController {
 	private int mCallCount;
 	private Date mDateSince;
+    private final static Logger logger = Logger.getLogger(StatDaoImpl.class);
 	
 	@Autowired
 	private StatService statService;
 	
 	@RequestMapping(value={"/"}, method=RequestMethod.GET)
 	public String rootPage() {
-		return "redirect:test"; // "forward" is different than "redirect"
+		return "redirect:test"; // "forward" is different from "redirect"
 	}
 	
 	@RequestMapping(value="/test", method = RequestMethod.GET)
@@ -157,8 +160,7 @@ public class ApplicationController {
 				statService.update(year, month, count+1);
 			}
 		} catch (SQLException | URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.info("Error updating DB: {}", e);
 		}
 		
 		return result; 

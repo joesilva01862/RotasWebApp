@@ -8,12 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.javacodegeeks.dao.StatDao;
+import com.javacodegeeks.dao.StatDaoImpl;
 
 @Service
-//@Transactional
 public class StatServiceImpl implements StatService {
 
-	//@Autowired
+	@Autowired
 	private StatDao statDao;
 	
 	public int read(int year, int month) throws SQLException, URISyntaxException {
