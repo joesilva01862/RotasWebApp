@@ -1,4 +1,4 @@
-package com.javacodegeeks.controller;
+package com.javacodegeeks.dao;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -8,12 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DatabaseAccess {
+public class StatDao {
 	private static final String DB_DRIVER = "org.postgresql.Driver";
 	
-	
+/*	
     // to be used for Heroku deployment
-	private static Connection getConnection() throws URISyntaxException, SQLException {
+	private Connection getConnection() throws URISyntaxException, SQLException {
 	    URI dbUri = new URI(System.getenv("DATABASE_URL"));
 
 	    String username = dbUri.getUserInfo().split(":")[0];
@@ -22,9 +22,10 @@ public class DatabaseAccess {
 
 	    return DriverManager.getConnection(dbUrl, username, password);
 	}
+*/	
 	
-/*	
     // to be used for local deployment
+	// DATABASE_URL must be = postgres:admin@localhost/rotastaxi_db
 	private static Connection getConnection() throws SQLException {
 		// for local test
 		try {
@@ -34,14 +35,13 @@ public class DatabaseAccess {
 			System.out.println(e.getMessage());
 		}
 
-	    String dbUrl = System.getenv("JDBC_DATABASE_URL");
+	    String dbUrl = System.getenv("DATABASE_URL");
 	    String user = "postgres";
 	    String password = "admin";
 	    return DriverManager.getConnection(dbUrl, user, password);
 	}
-*/
 	
-	public static int read(int year, int month) throws SQLException, URISyntaxException {
+	public int read(int year, int month) throws SQLException, URISyntaxException {
 
 		String selectTableSQL = "select count from USAGE "
 				+ "where year = ? and month = ?";
@@ -63,7 +63,7 @@ public class DatabaseAccess {
 		return rowCount;
 	}
 	
-	public static void insert(int year, int month) throws SQLException, URISyntaxException {
+	public void insert(int year, int month) throws SQLException, URISyntaxException {
 
 		String insertTableSQL = "INSERT INTO USAGE"
 				+ "(year, month, day, count) VALUES"
@@ -80,7 +80,7 @@ public class DatabaseAccess {
 		conn.close();
 	}
 	
-	public static void update(int year, int month, int count) throws SQLException, URISyntaxException {
+	public void update(int year, int month, int count) throws SQLException, URISyntaxException {
 
 		String updateTableSQL = "UPDATE USAGE "
 				+ "set count = ? "

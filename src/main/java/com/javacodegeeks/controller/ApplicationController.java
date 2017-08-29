@@ -18,6 +18,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,12 +35,17 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
+import com.javacodegeeks.json.Stat;
+import com.javacodegeeks.service.StatService;
  
 @Controller
 @RequestMapping("/")
 public class ApplicationController {
 	private int mCallCount;
 	private Date mDateSince;
+	
+	@Autowired
+	private StatService statService;
 	
 	@RequestMapping(value={"/"}, method=RequestMethod.GET)
 	public String rootPage() {
@@ -61,7 +68,7 @@ public class ApplicationController {
 		int count = 0;
 		
 		try {
-			count = DatabaseAccess.read(Integer.parseInt(year), Integer.parseInt(month));
+			count = statService.read(Integer.parseInt(year), Integer.parseInt(month));
 		} catch (NumberFormatException | SQLException | URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -72,18 +79,20 @@ public class ApplicationController {
 	}
 	
 	
-	@RequestMapping(value="/stats/ws/{year}/{month}", method = RequestMethod.GET)
+	@RequestMapping(value="/stats/ws/{year}/{month}", 
+			produces = MediaType.APPLICATION_JSON_VALUE, 
+			method = RequestMethod.GET)
 	public @ResponseBody String statsWs(@PathVariable String year, @PathVariable String month, ModelMap model) { 
 		int count = 0;
 		
 		try {
-			count = DatabaseAccess.read(Integer.parseInt(year), Integer.parseInt(month));
+			count = statService.read(Integer.parseInt(year), Integer.parseInt(month));
 		} catch (NumberFormatException | SQLException | URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			count = -1;
 		}
-		return String.valueOf(count);
+		
+		Gson gson = new Gson();
+		return gson.toJson(new Stat(count));
 	}
 	
 	
@@ -140,12 +149,12 @@ public class ApplicationController {
 		int year = localTime.get(Calendar.YEAR);
 		int month = localTime.get(Calendar.MONTH) + 1; // it's zero-based
 		try {
-			count = DatabaseAccess.read(year, month);
+			count = statService.read(year, month);
 			if (count == 0) {
-				DatabaseAccess.insert(year, month);
+				statService.insert(year, month);
 			}
 			else {
-				DatabaseAccess.update(year, month, count+1);
+				statService.update(year, month, count+1);
 			}
 		} catch (SQLException | URISyntaxException e) {
 			// TODO Auto-generated catch block
