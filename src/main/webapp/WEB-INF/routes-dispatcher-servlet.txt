@@ -11,7 +11,7 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
         
  
-	<context:component-scan base-package="com.javacodegeeks.controller" />
+	<context:component-scan base-package="com.javacodegeeks" />
  
  	<mvc:annotation-driven />
  	
